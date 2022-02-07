@@ -66,6 +66,7 @@ setup(
         ],
     extras_require={
         'lxd': ['netaddr', 'pylxd'],
+        'docs': ['sphinx'],
         },
     test_suite='lpbuildd',
     tests_require=[
