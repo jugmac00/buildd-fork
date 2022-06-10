@@ -60,6 +60,7 @@ class CIBuildManager(BuildManagerProxyMixin, DebianBuildManager):
         self.job_status = {}
         self.apt_repositories = extra_args.get("apt_repositories")
         self.environment_variables = extra_args.get("environment_variables")
+        self.plugin_settings = extra_args.get("plugin_settings")
 
         super().initiate(files, chroot, extra_args)
 
@@ -144,6 +145,10 @@ class CIBuildManager(BuildManagerProxyMixin, DebianBuildManager):
             for key, value in self.environment_variables.items():
                 args.extend(
                     ["--environment-variable", f"{key}={value}"])
+        if self.plugin_settings is not None:
+            for key, value in self.plugin_settings.items():
+                args.extend(
+                    ["--plugin_setting", f"{key}={value}"])
         job_name, job_index = self.current_job
         self.current_job_id = _make_job_id(job_name, job_index)
         args.extend([job_name, str(job_index)])

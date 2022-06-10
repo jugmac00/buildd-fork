@@ -125,14 +125,23 @@ class RunCI(BuilderProxyOperationMixin, Operation):
             self.args.job_name,
             str(self.args.job_index),
         ]
+        for repository in self.args.apt_repositories:
+            lpcraft_args.extend(["--apt-replace-repositories", repository])
+
         environment_variables = dict(
             pair.split("=", maxsplit=1)
             for pair in self.args.environment_variables
         )
         for key, value in environment_variables.items():
             lpcraft_args.extend(["--set-env", "%s=%s" % (key, value)])
-        for repository in self.args.apt_repositories:
-            lpcraft_args.extend(["--apt-replace-repositories", repository])
+
+        plugin_settings = dict(
+            pair.split("=", maxsplit=1)
+            for pair in self.args.plugin_settings
+        )
+        for key, value in plugin_settings.items():
+            lpcraft_args.extend(["--plugin_setting", "%s=%s" % (key, value)])
+
         escaped_lpcraft_args = (
             " ".join(shell_escape(arg) for arg in lpcraft_args))
         tee_args = ["tee", "%s.log" % output_path]
