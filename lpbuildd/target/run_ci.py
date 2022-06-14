@@ -108,6 +108,15 @@ class RunCI(BuilderProxyOperationMixin, Operation):
             default=[],
             help="single apt repository line",
         )
+        parser.add_argument(
+            "--plugin-setting",
+            dest="plugin_settings",
+            type=str,
+            action="append",
+            default=[],
+            help="plugin setting where the key and value are separated by =",
+        )
+
 
     def run_job(self):
         logger.info("Running job phase...")

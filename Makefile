@@ -23,3 +23,6 @@ realclean:
 check:
 	PYTHONPATH=$(CURDIR):$(PYTHONPATH) python3 -m testtools.run \
 		discover -v
+
+checkone:
+	PYTHONPATH=$(CURDIR):$(PYTHONPATH) python3 -m unittest discover -s lpbuildd -p "test_run_ci.py"
